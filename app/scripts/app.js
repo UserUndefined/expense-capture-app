@@ -39,6 +39,24 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
                         }]
                     }
                 },
+                editReceiptsView = {
+                    url: '/list',
+                    templateUrl: 'views/editReceipts.html',
+                    controller: 'EditReceiptsController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
                 newNotesView = {
                     url: '/new',
                     templateUrl: 'views/newNotes.html',
@@ -72,6 +90,7 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('newReceipt', newReceiptView)
             .state('newNotes', newNotesView)
             .state('editNotes', editNotesView)
+            .state('editReceipts', editReceiptsView)
             .state('login', loginView)
             .state('directivesExamples', directivesExamplesView)
             .state('formValidationExample', formValidationExampleView);
@@ -85,4 +104,5 @@ angular.element(document).ready(function () {
     $(".button-collapse").sideNav();
     $('select').material_select();
     $(".dropdown-button").dropdown();
+    $('.materialboxed').materialbox();
 });

@@ -1,0 +1,22 @@
+<div class="container col s12 m12 l12">
+    <div class="row"></div>
+    <table class="highlight responsive-table">
+        <thead>
+        <tr>
+            <th data-field="list-receipt-file"></th>
+            <th data-field="list-receipt-date">Date</th>
+            <th data-field="list-receipt-project">Project</th>
+            <th data-field="list-receipt-price">Price</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="receipt in receipts">
+                <td><img src="{{receipt.file}}" class="materialboxed"></img></td>
+                <td>{{receipt.date}}</td>
+                <td>{{receipt.project}}</td>
+                <td>{{receipt.price}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
