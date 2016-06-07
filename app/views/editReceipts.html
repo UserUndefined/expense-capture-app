@@ -1,22 +1,21 @@
 <div class="container col s12 m12 l12">
     <div class="row"></div>
-    <table class="highlight">
-        <thead>
-        <tr>
-            <th data-field="list-receipt-file"></th>
-            <th data-field="list-receipt-date">Date</th>
-            <th data-field="list-receipt-project">Project</th>
-            <th data-field="list-receipt-price">Price</th>
-        </tr>
-        </thead>
-
-        <tbody>
-            <tr ng-repeat="receipt in receipts">
-                <td><img ng-src="{{receipt.file}}" class="img-list-receipts-thumbnail responsive-img materialboxed" height="50"></td>
-                <td>{{receipt.date}}</td>
-                <td>{{receipt.project}}</td>
-                <td>{{receipt.price}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <ul class="collection">
+        <li ng-repeat="receipt in receipts" class="collection-item avatar">
+            <div class="list-item-receipt-details">
+                <div class="container-item-receipt-thumbnail">
+                    <img ng-src="{{receipt.file}}" class="img-list-receipts-thumbnail materialboxed">
+                </div>
+                <div class="container-item-receipt-text">
+                    <i class="material-icons circle green">insert_chart</i>
+                    <span class="title">{{receipt.date}}</span>
+                    <p>{{receipt.project}}
+                        <br>
+                    <p>{{receipt.price}}
+                    </p>
+                </div>
+            </div>
+        </li>
+        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+    </ul>
 </div>
