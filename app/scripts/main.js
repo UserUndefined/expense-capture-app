@@ -1,7 +1,7 @@
 "use strict";
  angular.module('config', [])
 
-.constant('RECEIPT_API_URL', 'http://localhost:3077/')
+.constant('RECEIPT_API_URL', 'https://generic-receiver-api.herokuapp.com/')
 
 ;;angular.module('appTemplates', []).run(['$templateCache', function($templateCache) {
   "use strict";
@@ -282,12 +282,13 @@ angular.module('app')
 
         function initialise(){
             ReceiptApi.all('receipts').getList().then(function (res) {
-                $scope.allReceipts = res.plain();
+                //$scope.allReceipts = res.plain();
                 //var filtered = _.filter($scope.allReceipts, function(x){return x.file !== ''});
-                var filtered = _.cloneDeep($scope.allReceipts);
-                _.orderBy(filtered, ['date'], ['desc']);
-                $scope.filteredReceipts = filtered;
-            }, function () {
+                //var filtered = _.cloneDeep($scope.allReceipts);
+                //_.orderBy(filtered, ['date'], ['desc']);
+                $scope.filteredReceipts = res.plain();
+            }, function (err) {
+                console.error(err.toString());
                 notify({ message:'Fetch Receipts Failed', duration:3000, classes:'alert-fail'} );
             });
         }
