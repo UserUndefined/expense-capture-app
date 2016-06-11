@@ -21,8 +21,29 @@
 }
 */
 /* line 1, ../../app/styles/receipt.scss */
+.list-item-receipt-details {
+  min-height: 100px;
+}
+
+/* line 5, ../../app/styles/receipt.scss */
+.container-item-receipt-thumbnail {
+  float: right;
+}
+
+/* line 12, ../../app/styles/receipt.scss */
+.img-list-receipts-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+/* line 17, ../../app/styles/receipt.scss */
 .receiptPreview {
   max-width: 100%;
+}
+
+/* line 6, ../../app/styles/main.scss */
+html {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 /*
 .product{
@@ -38,6 +59,22 @@
 }
 */
 /* line 1, ../../app/styles/receipt.scss */
+.list-item-receipt-details {
+  min-height: 100px;
+}
+
+/* line 5, ../../app/styles/receipt.scss */
+.container-item-receipt-thumbnail {
+  float: right;
+}
+
+/* line 12, ../../app/styles/receipt.scss */
+.img-list-receipts-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+/* line 17, ../../app/styles/receipt.scss */
 .receiptPreview {
   max-width: 100%;
 }

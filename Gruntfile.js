@@ -63,7 +63,8 @@ module.exports = function (grunt) {
                         '<%= config.app %>/<%= config.scripts %>/controllers/*.js',
                         '<%= config.app %>/<%= config.scripts %>/directives/*.js',
                         '<%= config.app %>/<%= config.scripts %>/rest/*.js',
-                        '<%= config.app %>/<%= config.scripts %>/services/*.js'
+                        '<%= config.app %>/<%= config.scripts %>/services/*.js',
+                        '<%= config.app %>/<%= config.scripts %>/factories/*.js'
                     ],
                     options: {
                         livereload: true
@@ -219,7 +220,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= config.app %>/<%= config.scripts %>/',
                     dest: '<%= config.tmp %>/<%= config.scripts %>/',
-                    src: ['controllers/*.js','directives/*.js','rest/*.js', 'services/*.js','app.js']
+                    src: ['controllers/*.js','directives/*.js','rest/*.js', 'services/*.js', 'factories/*.js','app.js']
                 },
                 "distDevelopment": {
                     expand: true,
@@ -281,7 +282,8 @@ module.exports = function (grunt) {
                         '<%= config.tmp %>/<%= config.scripts %>/controllers/*.js',
                         '<%= config.tmp %>/<%= config.scripts %>/directives/*.js',
                         '<%= config.tmp %>/<%= config.scripts %>/rest/*.js',
-                        '<%= config.tmp %>/<%= config.scripts %>/services/*.js'
+                        '<%= config.tmp %>/<%= config.scripts %>/services/*.js',
+                        '<%= config.tmp %>/<%= config.scripts %>/factories/*.js'
                     ],
                     dest: '<%= config.dist %>/<%= config.scripts %>/main.js'
                 }

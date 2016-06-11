@@ -1,7 +1,7 @@
 "use strict";
  angular.module('config', [])
 
-.constant('RECEIPT_API_URL', 'https://generic-receiver-api.herokuapp.com/')
+.constant('RECEIPT_API_URL', 'http://localhost:3077/')
 
 ;;angular.module('appTemplates', []).run(['$templateCache', function($templateCache) {
   "use strict";
@@ -16,7 +16,7 @@
   $templateCache.put("views/editNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=\"input-field col s9\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript ng-change=parseTranscript() ng-model-options=\"{ debounce: 2000 }\" focus=isTranscriptFocused></textarea><label class=active for=transcript>Notes</label></div><div class=\"input-field col s3\"><img class=\"receiptPreview col s12\" ng-src=\"{{receipt.file}}\"></div></div><div class=row><div class=\"input-field col s6\"><input id=receiptDate class=validate ng-model=receipt.date><label class=active for=receiptDate>Receipt Date</label></div><div class=\"input-field col s6\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn col s12\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div ng-if=receiptSubmitted class=row><div class=\"input-field col s12\"><a ng-click=navigateToNewReceipt()>New receipt</a></div></div><span us-spinner=\"{radius:20, width:8, length:16}\" spinner-on=showSpinner></span></div>");
   $templateCache.put("views/editReceipts.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row></div><ul class=collection><li ng-repeat=\"receipt in receipts\" class=\"collection-item avatar\"><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.date}}</span><p>{{receipt.project}}<br></p><p>{{receipt.price}}</p></div></div></li><li class=collection-item><div>Alvin<a href=#! class=secondary-content><i class=material-icons>send</i></a></div></li></ul></div>");
+    "<div class=\"container col s12 m12 l12\"><div class=row></div><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.date}}</span><p>{{receipt.project}}<br></p><p>{{receipt.price}}</p></div></div></li><li class=collection-item><div>Alvin<a href=#! class=secondary-content><i class=material-icons>send</i></a></div></li></ul></div>");
   $templateCache.put("views/formValidation.html",
     "<h1>AngularJs Form Validation Example</h1><form novalidate class=simple-form>Name: <input ng-model=user.name required><br>E-mail: <input type=email ng-model=user.email class=validate required><br><input type=button ng-click=reset() value=\"Reset\"> <input type=submit ng-click=update(user) value=\"Save\"></form><pre>user = {{user | json}}</pre><pre>master = {{master | json}}</pre>");
   $templateCache.put("views/login.html",
@@ -125,7 +125,7 @@
             .state('directivesExamples', directivesExamplesView)
             .state('formValidationExample', formValidationExampleView);
 
-            $urlRouterProvider.otherwise('/new');
+            $urlRouterProvider.otherwise('/list');
 
         }]);
 
@@ -274,7 +274,7 @@ angular.module('app')
 ;'use strict';
 
 angular.module('app')
-    .controller('EditReceiptsController', ['$scope', '$state', 'ReceiptApi', 'newReceiptDataService', 'notify', 'transcriptParser', function ($scope, $state, ReceiptApi, newReceiptDataService, notify, transcriptParser) {
+    .controller('EditReceiptsController', ['$scope', '$state', 'ReceiptApi', 'newReceiptDataService', 'notify', '_', function ($scope, $state, ReceiptApi, newReceiptDataService, notify, _) {
 
         //$scope.$on('onRepeatLast', function(scope, element, attrs) {
         //    $('.materialboxed').materialbox();
@@ -282,7 +282,11 @@ angular.module('app')
 
         function initialise(){
             ReceiptApi.all('receipts').getList().then(function (res) {
-                $scope.receipts = res.plain();
+                $scope.allReceipts = res.plain();
+                //var filtered = _.filter($scope.allReceipts, function(x){return x.file !== ''});
+                var filtered = _.cloneDeep($scope.allReceipts);
+                _.orderBy(filtered, ['date'], ['desc']);
+                $scope.filteredReceipts = filtered;
             }, function () {
                 notify({ message:'Fetch Receipts Failed', duration:3000, classes:'alert-fail'} );
             });
@@ -340,7 +344,7 @@ angular.module('app')
                 if ($scope.user.logon === 'Guest' && $scope.user.password === 'password') {
                     // Successful login
                     userService.logIn($scope.user.logon, 'ABCDE12345', $scope.user.organisation);
-                    $state.transitionTo('newReceipt');
+                    $state.transitionTo('editReceipts');
                 } else {
                     // Unsuccessful Login
                     notify({ message:'Login Failed', duration:3000, classes:'alert-fail'} );
@@ -795,5 +799,15 @@ angular.module('app')
 
             return defer.promise;
         };
+
+    }]);;'use strict';
+
+angular.module('app')
+    .factory('_', ['$window', '$state', function($window, $state) {
+
+        if(!$window._){
+            $state.go('login');
+        }
+        return $window._;
 
     }]);

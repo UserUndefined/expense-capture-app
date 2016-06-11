@@ -1,5 +1,5 @@
 {
     "server": {
-        "receiptUrl": "https://generic-receiver-api.herokuapp.com/"
+        "receiptUrl": "http://localhost:3077/"
     }
 }

@@ -95,7 +95,7 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('directivesExamples', directivesExamplesView)
             .state('formValidationExample', formValidationExampleView);
 
-            $urlRouterProvider.otherwise('/new');
+            $urlRouterProvider.otherwise('/list');
 
         }]);
 
