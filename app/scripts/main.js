@@ -131,15 +131,13 @@
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ['app']);
-    //$(".button-collapse").sideNav();
     $('select').material_select();
     $(".dropdown-button").dropdown();
     $('.materialboxed').materialbox();
-    $('.collapsible').collapsible();
     $('.button-collapse').sideNav({
         menuWidth: 240, // Default is 240
         edge: 'left', // Choose the horizontal origin
-        closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
     });
 });
 ;'use strict';
