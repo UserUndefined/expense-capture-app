@@ -28,26 +28,22 @@
 
 <body>
 <header>
-    <nav class="top-nav">
-        <!--div class="container"><a href="#" data-activates="nav-mobile" class="button-collapse top-nav full hide-on-large-only right"><i class="mdi-navigation-menu"></i></a></div-->
-        <div class="container">
-            <div class="nav-wrapper"><a class="page-title">Expenses Tracker</a>
-                <ul class="right">
-                    <li><current-user></current-user></li>
-                </ul>
-            </div>
+    <nav class="top-nav" role="navigation">
+        <div class="nav-wrapper container">
+            <a class="page-title">Expense Tracker</a>
+            <ul class="right">
+                <li><current-user></current-user></li>
+            </ul>
         </div>
     </nav>
-    <!--div>
-        <ul id="nav-mobile" class="side-nav">
-            <li class="logo"><a id="logo-container" href="#" class="brand-logo">Product Title</a></li>
-            <li class="bold"><a href="#" class="waves-effect waves-teal">Nav #1</a></li>
-            <li class="bold"><a href="#" class="waves-effect waves-teal">Nav #2</a></li>
-            <li class="bold"><a href="#" class="waves-effect waves-teal">Nav #3</a></li>
-            <li class="bold"><a href="#" class="waves-effect waves-teal">Nav #4</a></li>
-            <li class="bold"><tl-user></tl-user></li>
-        </ul>
-    </div-->
+    <ul id="slide-out" class="side-nav fixed">
+        <li class="logo"><a id="logo-container" href="#!" class="brand-logo">Logo</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#!">Dashboard</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#!">Receipts</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#!">New Receipt</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#!">Export</a></li>
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 </header>
 <main>
     <div class="section no-pad-bot" id="index-banner">
