@@ -57,6 +57,24 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
                         }]
                     }
                 },
+                dashboardView = {
+                    url: '/',
+                    templateUrl: 'views/dashboard.html',
+                    controller: 'DashboardController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
                 newNotesView = {
                     url: '/new',
                     templateUrl: 'views/newNotes.html',
@@ -93,9 +111,10 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('editReceipts', editReceiptsView)
             .state('login', loginView)
             .state('directivesExamples', directivesExamplesView)
+            .state('dashboard', dashboardView)
             .state('formValidationExample', formValidationExampleView);
 
-            $urlRouterProvider.otherwise('/list');
+            $urlRouterProvider.otherwise('/');
 
         }]);
 

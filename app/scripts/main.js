@@ -7,6 +7,8 @@
   "use strict";
   $templateCache.put("views/captureReceipt.html",
     "<div class=container><div class=row></div><div class=row><div class=\"file-field input-field col s12\"><div class=\"waves-effect waves-light btn\"><span>Capture Receipt</span> <input type=file accept=image/* capture=camera id=receiptFile onchange=angular.element(this).scope().receiptFileChangeEventHandler(this.files)></div></div></div><div class=row ng-if=\"receiptFile !== ''\"><div class=\"col s5\"><img class=receiptPreview ng-src=\"{{receiptFile}}\"></div></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=startDictation()>Dictate Notes</button></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><div class=\"input-field col s6\"><input id=receiptDate class=validate ng-model=createdDate><label class=active for=receiptDate>Receipt Date</label></div><div class=\"input-field col s6\"><input id=receiptValue class=validate ng-model=claimValue><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s6\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div ng-if=receiptSubmitted class=row><div class=\"col s12\"><div class=\"input-field col s12\"><p>Receipt Submitted</p></div></div></div></div>");
+  $templateCache.put("views/dashboard.html",
+    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"col s12 m5\"><div class=\"card-panel teal\"><span class=white-text>{{stats.receiptsLastSevenDays}} receipts entered in the last 7 days</span></div></div><div class=\"col s12 m5\"><div class=\"card-panel teal\"><span class=white-text>{{stats.receiptsLastMonth}} receipts entered in the last month</span></div></div></div></div>");
   $templateCache.put("views/directiveExamples.html",
     "<h1>AngularJs Custom Directive Examples</h1><p>This page contains a few examples of custom AngularJs directives using different techniques and functionality.</p><p>Here is an inline custom directive displaying a customer name scope property</p><exp-in-line-directive></exp-in-line-directive><p>Here is a custom directive using an HTML template to display all customer details:</p><exp-html-directive></exp-html-directive>");
   $templateCache.put("views/directives/currentUser.html",
@@ -87,6 +89,24 @@
                         }]
                     }
                 },
+                dashboardView = {
+                    url: '/',
+                    templateUrl: 'views/dashboard.html',
+                    controller: 'DashboardController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
                 newNotesView = {
                     url: '/new',
                     templateUrl: 'views/newNotes.html',
@@ -123,9 +143,10 @@
             .state('editReceipts', editReceiptsView)
             .state('login', loginView)
             .state('directivesExamples', directivesExamplesView)
+            .state('dashboard', dashboardView)
             .state('formValidationExample', formValidationExampleView);
 
-            $urlRouterProvider.otherwise('/list');
+            $urlRouterProvider.otherwise('/');
 
         }]);
 
@@ -217,6 +238,21 @@ angular.module('app')
         };
 
         initialise();
+    }]);
+;'use strict';
+
+angular.module('app')
+    .controller('DashboardController', ['$scope', '$state', 'ReceiptApi', 'notify', function ($scope, $state, ReceiptApi, notify) {
+
+        function initialise(){
+            $scope.stats = {
+                receiptsLastSevenDays: 5,
+                receiptsLastMonth: 23
+            };
+        }
+
+        initialise();
+
     }]);
 ;'use strict';
 
