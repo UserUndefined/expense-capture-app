@@ -1,5 +1,5 @@
 {
-  "name": "image-collector-app",
+  "name": "expense-capture-app",
   "version": "0.0.1",
   "dependencies": {
     "lodash": "^4.13.1",
@@ -12,7 +12,8 @@
     "angular-notify": "^2.5.0",
     "moment": "^2.13.0",
     "jquery": "^2.1.1",
-    "angular-cookie": "^4.1.0"
+    "angular-cookie": "^4.1.0",
+    "angular-file-saver": "^1.1.1"
   },
   "devDependencies": {},
   "resolutions": {

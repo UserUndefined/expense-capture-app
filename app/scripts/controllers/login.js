@@ -31,7 +31,7 @@ angular.module('app')
                 if ($scope.user.logon === 'Guest' && $scope.user.password === 'password') {
                     // Successful login
                     userService.logIn($scope.user.logon, 'ABCDE12345', $scope.user.organisation);
-                    $state.transitionTo('editReceipts');
+                    $state.transitionTo('dashboard');
                 } else {
                     // Unsuccessful Login
                     notify({ message:'Login Failed', duration:3000, classes:'alert-fail'} );

@@ -1,4 +1,4 @@
-angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie'])
+angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver'])
 
     .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
@@ -75,6 +75,24 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
                         }]
                     }
                 },
+                exportView = {
+                    url: '/export',
+                    templateUrl: 'views/export.html',
+                    controller: 'ExportController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
                 newNotesView = {
                     url: '/new',
                     templateUrl: 'views/newNotes.html',
@@ -106,6 +124,7 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('main', mainView)
             .state('captureReceipt', captureReceiptView)
             .state('newReceipt', newReceiptView)
+            .state('export', exportView)
             .state('newNotes', newNotesView)
             .state('editNotes', editNotesView)
             .state('editReceipts', editReceiptsView)

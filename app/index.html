@@ -19,8 +19,8 @@
     <!-- CSS-->
     <!-- build:css styles/main.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="../bower_components/Materialize/bin/materialize.css" />
-    <link rel="stylesheet" href="../bower_components/angular-notify/dist/angular-notify.css" />
+    <link rel="stylesheet" href="bower_components/Materialize/bin/materialize.css" />
+    <link rel="stylesheet" href="bower_components/angular-notify/dist/angular-notify.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="styles/main.css" />
     <!-- endbuild -->
@@ -42,7 +42,7 @@
         <li class="bold"><a class="waves-effect waves-teal" ng-href="#">Dashboard</a></li>
         <li class="bold"><a class="waves-effect waves-teal" href="#/list">Receipts</a></li>
         <li class="bold"><a class="waves-effect waves-teal" href="#/new">New Receipt</a></li>
-        <li class="bold"><a class="waves-effect waves-teal" href="#!">Export</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#/export">Export</a></li>
     </ul>
 </header>
 <main>
@@ -70,18 +70,21 @@
 
 <!-- build:js scripts/main.js -->
 <!-- bower:js -->
-<script src="../bower_components/jquery/dist/jquery.js"></script>
-<script src="../bower_components/lodash/lodash.js"></script>
-<script src="../bower_components/angular/angular.js"></script>
-<script src="../bower_components/angular-mocks/angular-mocks.js"></script>
-<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="../bower_components/Materialize/bin/materialize.js"></script>
-<script src="../bower_components/restangular/dist/restangular.js"></script>
-<script src="../bower_components/spin.js/spin.js"></script>
-<script src="../bower_components/angular-spinner/angular-spinner.js"></script>
-<script src="../bower_components/angular-notify/dist/angular-notify.js"></script>
-<script src="../bower_components/moment/moment.js"></script>
-<script src="../bower_components/angular-cookie/angular-cookie.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/Materialize/bin/materialize.js"></script>
+<script src="bower_components/restangular/dist/restangular.js"></script>
+<script src="bower_components/spin.js/spin.js"></script>
+<script src="bower_components/angular-spinner/angular-spinner.js"></script>
+<script src="bower_components/angular-notify/dist/angular-notify.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/angular-cookie/angular-cookie.js"></script>
+<script src="bower_components/blob-polyfill/Blob.js"></script>
+<script src="bower_components/file-saver.js/FileSaver.js"></script>
+<script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js"></script>
 <!-- endbower -->
 <script src="scripts/main.js"></script>
 <!-- endbuild -->
