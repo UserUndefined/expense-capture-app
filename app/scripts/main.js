@@ -17,8 +17,10 @@
     "<hr><p><h3>Customer Name:</h3>{{customer.name}}</p><p><h3>Customer Telephone:</h3>{{customer.telephone}}</p><p><h3>Customer Email:</h3>{{customer.email}}</p><hr>");
   $templateCache.put("views/editNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=\"input-field col s9\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript ng-change=parseTranscript() ng-model-options=\"{ debounce: 2000 }\" focus=isTranscriptFocused></textarea><label class=active for=transcript>Notes</label></div><div class=\"input-field col s3\"><img class=\"receiptPreview col s12\" ng-src=\"{{receipt.file}}\"></div></div><div class=row><div class=\"input-field col s6\"><input id=receiptDate class=validate ng-model=receipt.date><label class=active for=receiptDate>Receipt Date</label></div><div class=\"input-field col s6\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn col s12\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div ng-if=receiptSubmitted class=row><div class=\"input-field col s12\"><a ng-click=navigateToNewReceipt()>New receipt</a></div></div><span us-spinner=\"{radius:20, width:8, length:16}\" spinner-on=showSpinner></span></div>");
+  $templateCache.put("views/editReceipt.html",
+    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=receiptDate type=date class=datepicker ng-model=receipt.date><label class=active for=receiptDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div class=row><div class=\"input-field col s12\"><label class=\"item item-input item-floating-label\"><span class=input-label>File</span> <img class=\"receiptPreview previewCenter\" ng-src=\"{{receipt.file}}\"></label></div></div></div>");
   $templateCache.put("views/editReceipts.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row></div><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.date}}</span><p>{{receipt.project}}<br></p><p>{{receipt.price}}</p></div></div></li></ul></div>");
+    "<div class=\"container col s12 m12 l12\"><div class=row></div><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><div class=list-item-receipt-details><a ng-href=#/editReceipt/{{receipt._id}}><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.date}}</span><p>{{receipt.project}}<br></p><p>{{receipt.price}}</p></div></a></div></li></ul></div>");
   $templateCache.put("views/export.html",
     "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=downloadCsvData()>Export</button></div></div></div>");
   $templateCache.put("views/formValidation.html",
@@ -77,6 +79,24 @@
                     url: '/list',
                     templateUrl: 'views/editReceipts.html',
                     controller: 'EditReceiptsController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
+                editReceiptView = {
+                    url: '/receipt/:receiptId',
+                    templateUrl: 'views/editReceipt.html',
+                    controller: 'EditReceiptController',
                     resolve: {
                         authentication: ['userService', '$q', function (userService, $q) {
                             var defer = $q.defer();
@@ -161,6 +181,7 @@
             .state('export', exportView)
             .state('newNotes', newNotesView)
             .state('editNotes', editNotesView)
+            .state('editReceipt', editReceiptView)
             .state('editReceipts', editReceiptsView)
             .state('login', loginView)
             .state('directivesExamples', directivesExamplesView)
@@ -331,6 +352,41 @@ angular.module('app')
 
         $scope.navigateToNewReceipt = function(){
             $state.go('newReceipt');
+        };
+
+        initialise();
+    }]);
+;'use strict';
+
+angular.module('app')
+    .controller('EditReceiptController', ['$scope', '$state', 'newReceiptDataService', 'userService', 'ReceiptApi', 'notify', '$stateParams', function ($scope, $state, newReceiptDataService, userService, ReceiptApi, notify, $stateParams) {
+
+        var defaultDate = new Date();
+
+        function initialise(){
+            $scope.receiptId = $stateParams.receiptId;
+            getReceipt();
+        }
+
+        function getReceipt(){
+            ReceiptApi.all('receipts').one($scope.receiptId).get().then(function (res) {
+                $scope.receipt = res.plain();
+                $scope.$apply();
+            }, function () {
+                $scope.receipt = newReceiptDataService.newReceipt();
+                $scope.receipt.date = defaultDate.toDateString();
+                notify({ message:'Receipt not found', duration:3000, classes:'alert-danger'} );
+            });
+        }
+
+        $scope.submitReceipt = function(){
+            var receipts = ReceiptApi.all('receipt');
+            receipts.post($scope.receipt).then(function (res) {
+                notify({ message:'Receipt Saved', duration:3000, classes:'alert-success'} );
+                $state.go('dashboard');
+            },function(response){
+                notify({ message:'status: ' + response.status + '; message: ' + response.message, duration:3000, classes:'alert-success'} );
+            });
         };
 
         initialise();
@@ -584,24 +640,6 @@ angular.module('app')
             template: 'Customer Name: {{customer.name}}'
         };
     });'use strict';
-
-angular.module('app')
-    .directive('exportCsvData',['$compile', function($compile){
-        return {
-            restrict:'E',
-            scope:{ getUrlData:'&getData'},
-            link:function (scope, elm, attrs) {
-                var url = URL.createObjectURL(scope.getUrlData());
-                elm.append($compile(
-                    '<a class="btn" download="backup.json"' +
-                    'href="' + url + '">' +
-                    'Export' +
-                    '</a>'
-                )(scope));
-            }
-        };
-    }]);
-;'use strict';
 
 angular.module('app')
     .directive('focus', ['$timeout', '$parse', function($timeout, $parse) {

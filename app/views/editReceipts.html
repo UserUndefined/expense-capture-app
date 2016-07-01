@@ -3,17 +3,19 @@
 <ul class="collection">
     <li ng-repeat="receipt in filteredReceipts" class="collection-item avatar">
         <div class="list-item-receipt-details">
-            <div class="container-item-receipt-thumbnail">
-                <img ng-src="{{receipt.file}}" class="img-list-receipts-thumbnail materialboxed">
-            </div>
-            <div class="container-item-receipt-text">
-                <i class="material-icons circle green">insert_chart</i>
-                <span class="title">{{receipt.date}}</span>
-                <p>{{receipt.project}}
-                    <br>
-                <p>{{receipt.price}}
-                </p>
-            </div>
+            <a ng-href="#/editReceipt/{{receipt._id}}">
+                <div class="container-item-receipt-thumbnail">
+                    <img ng-src="{{receipt.file}}" class="img-list-receipts-thumbnail materialboxed">
+                </div>
+                <div class="container-item-receipt-text">
+                    <i class="material-icons circle green">insert_chart</i>
+                    <span class="title">{{receipt.date}}</span>
+                    <p>{{receipt.project}}
+                        <br>
+                    <p>{{receipt.price}}
+                    </p>
+                </div>
+            </a>
         </div>
     </li>
 </ul>

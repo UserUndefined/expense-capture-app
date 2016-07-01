@@ -57,6 +57,24 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
                         }]
                     }
                 },
+                editReceiptView = {
+                    url: '/receipt/:receiptId',
+                    templateUrl: 'views/editReceipt.html',
+                    controller: 'EditReceiptController',
+                    resolve: {
+                        authentication: ['userService', '$q', function (userService, $q) {
+                            var defer = $q.defer();
+                            userService.isLoggedIn().then(function (loggedIn) {
+                                if (loggedIn) {
+                                    defer.resolve(true);
+                                } else {
+                                    defer.reject();
+                                }
+                            });
+                            return defer.promise;
+                        }]
+                    }
+                },
                 dashboardView = {
                     url: '/',
                     templateUrl: 'views/dashboard.html',
@@ -127,6 +145,7 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('export', exportView)
             .state('newNotes', newNotesView)
             .state('editNotes', editNotesView)
+            .state('editReceipt', editReceiptView)
             .state('editReceipts', editReceiptsView)
             .state('login', loginView)
             .state('directivesExamples', directivesExamplesView)
