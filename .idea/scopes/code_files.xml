@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="code files" pattern="file[expense-capture-app]:*/&amp;&amp;!file[expense-capture-app]:.idea//*&amp;&amp;!file[expense-capture-app]:.sass-cache//*&amp;&amp;!file[expense-capture-app]:.tmp//*&amp;&amp;!file[expense-capture-app]:dist//*&amp;&amp;!file[expense-capture-app]:node_modules//*&amp;&amp;!file[expense-capture-app]:app/bower_components//*" />
+</component>

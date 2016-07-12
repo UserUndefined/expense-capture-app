@@ -13,7 +13,8 @@ angular.module('app')
         function getReceipt(){
             ReceiptApi.all('receipts').one($scope.receiptId).get().then(function (res) {
                 $scope.receipt = res.plain();
-                $scope.$apply();
+                $scope.receipt.testDate = new Date($scope.receipt.date);
+                //$scope.$apply();
             }, function () {
                 $scope.receipt = newReceiptDataService.newReceipt();
                 $scope.receipt.date = defaultDate.toDateString();
