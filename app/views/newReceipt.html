@@ -7,19 +7,19 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input id="receiptValue" type="number" class="validate" ng-model="claimValue">
+            <input id="receiptValue" type="number" class="validate" ng-model="receipt.price">
             <label class="active" for="receiptValue">Claim Value</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input class="validate" id="projectName" type="text" ng-model="project">
+            <input class="validate" id="projectName" type="text" ng-model="receipt.project">
             <label class="active" for="projectName">Project</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <textarea class="materialize-textarea validate" type="text" id="transcript" ng-model="transcript"></textarea>
+            <textarea class="materialize-textarea validate" type="text" id="transcript" ng-model="receipt.transcript"></textarea>
             <label class="active" for="transcript">Notes</label>
         </div>
     </div>
