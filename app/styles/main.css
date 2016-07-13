@@ -57,6 +57,15 @@ header, main, footer {
     padding-left: 0;
   }
 }
+/* line 20, ../../app/styles/main.scss */
+li:hover {
+  background: #eee;
+}
+
+/* line 24, ../../app/styles/main.scss */
+.collection-item:hover {
+  background: #eee;
+}
 /*
 .product{
 }

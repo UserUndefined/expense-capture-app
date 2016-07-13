@@ -8,7 +8,7 @@ angular.module('app')
             transcript: '',
             project: '',
             price: '',
-            date: '',
+            receiptDate: new Date(),
             user: '',
             organisation: '',
             canDictate: true
@@ -19,7 +19,7 @@ angular.module('app')
             _receipt.transcript = '';
             _receipt.project = '';
             _receipt.price = '';
-            _receipt.date = '';
+            _receipt.receiptDate = new Date();
             _receipt.user = '';
             _receipt.organisation = '';
             _receipt.canDictate = true;

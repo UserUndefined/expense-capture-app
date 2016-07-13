@@ -18,9 +18,9 @@
   $templateCache.put("views/editNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=\"input-field col s9\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript ng-change=parseTranscript() ng-model-options=\"{ debounce: 2000 }\" focus=isTranscriptFocused></textarea><label class=active for=transcript>Notes</label></div><div class=\"input-field col s3\"><img class=\"receiptPreview col s12\" ng-src=\"{{receipt.file}}\"></div></div><div class=row><div class=\"input-field col s6\"><input id=receiptDate class=validate ng-model=receipt.date><label class=active for=receiptDate>Receipt Date</label></div><div class=\"input-field col s6\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn col s12\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div ng-if=receiptSubmitted class=row><div class=\"input-field col s12\"><a ng-click=navigateToNewReceipt()>New receipt</a></div></div><span us-spinner=\"{radius:20, width:8, length:16}\" spinner-on=showSpinner></span></div>");
   $templateCache.put("views/editReceipt.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=receiptDate type=date class=datepicker ng-model=receipt.testDate><label class=active for=receiptDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div class=row><div class=\"input-field col s12\"><label class=\"item item-input item-floating-label\"><span class=input-label>File</span> <img class=\"receiptPreview previewCenter\" ng-src=\"{{receipt.file}}\"></label></div></div></div>");
+    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=receiptDate type=date class=datepicker ng-model=receipt.createdDate><label class=active for=receiptDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div class=row><div class=\"input-field col s12\"><label class=\"item item-input item-floating-label\"><span class=input-label>File</span> <img class=\"receiptPreview previewCenter\" ng-src=\"{{receipt.file}}\"></label></div></div></div>");
   $templateCache.put("views/editReceipts.html",
-    "<div class=\"list-container col s12 m12 l12\"><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><a ng-href=#/receipt/{{receipt._id}}><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.date}}</span><p>{{receipt.project}}<br></p><p>{{receipt.price}}</p></div></div></a></li></ul></div>");
+    "<div class=\"list-container col s12 m12 l12\"><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><a ng-href=#/receipt/{{receipt._id}}><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.receiptDate | date:'dd MMM yyyy'}}</span><p>{{receipt.project}}<br></p><p ng-if=receipt.price>£{{receipt.price}}</p></div></div></a></li></ul></div>");
   $templateCache.put("views/export.html",
     "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=downloadCsvData()>Export</button></div></div></div>");
   $templateCache.put("views/formValidation.html",
@@ -32,7 +32,7 @@
   $templateCache.put("views/newNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=toggleDictation()><i class=\"material-icons col s1\">mic</i><div class=\"col s10\"><span ng-if=!recording>Start Dictating</span> <span ng-if=recording>Stop Dictating</span></div></button></div></div><div class=row><div><img id=image-test class=\"receiptPreview col s12\" ng-src={{receipt.file}} onload=\"Materialize.fadeInImage('#image-test')\"></div></div></div>");
   $templateCache.put("views/newReceipt.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=receiptDate type=date class=datepicker ng-model=createdDate><label class=active for=receiptDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=claimValue><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
+    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=newReceiptCreateDate type=date class=datepicker ng-model=receipt.receiptDate><label class=active for=newReceiptCreateDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=claimValue><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
 }]);
 ;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver'])
 
@@ -205,7 +205,7 @@ angular.element(document).ready(function () {
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 15, // Creates a dropdown of 15 years to control year
-        format: 'dd/mm/yyyy'
+        format: 'dd mmm yyyy'
     });
 });
 ;'use strict';
@@ -591,8 +591,16 @@ angular.module('app')
 
         function initialise(){
             $scope.receipt = newReceiptDataService.newReceipt();
-            $scope.receipt.date = defaultDate.toDateString();
+            //$scope.receipt.receiptDate = moment().format("DD MMM YYYY");
         }
+
+        angular.element(document).ready(function () {
+            $('#newReceiptCreateDate').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                format: 'dd mmm yyyy'
+            });
+        });
 
         $scope.submitReceipt = function(){
             var receipts = ReceiptApi.all('receipt');
@@ -604,21 +612,6 @@ angular.module('app')
             });
         };
 
-        /*
-        $scope.receiptFileChangeEventHandler = function(files){
-            var file = files[0];
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                $scope.receipt.file = event.target.result;
-                var user = userService.getCurrentUser();
-                $scope.receipt.user = user.username;
-                $scope.receipt.organisation = user.organisation;
-                $scope.$apply();
-                $state.go('newNotes');
-            };
-            reader.readAsDataURL(file);
-        };
-*/
         initialise();
     }]);
 ;'use strict';
@@ -664,6 +657,52 @@ angular.module('app')
                 })
             }
         }
+    }]);;'use strict';
+
+angular.module('app')
+    .directive('jDatePicker',['$filter', function ($filter) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModelCtrl) {
+                element.newReceiptCreateDate({
+                    dateFormat: 'dd/mm/yy',
+                    onSelect: function (date) {
+                        var ar=date.split("/");
+                        date=new Date(ar[2]+"-"+ar[1]+"-"+ar[0]);
+                        ngModelCtrl.$setViewValue(date.getTime());
+                        scope.$apply();
+                    }
+                });
+                ngModelCtrl.$formatters.unshift(function(v) {
+                    return $filter('date')(v,'dd/MM/yyyy');
+                });
+
+            }
+        };
+    }]);;'use strict';
+
+angular.module('app')
+    .directive('jqdatepicker', ['$filter', function ($filter) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModelCtrl) {
+                element.datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    onSelect: function (date) {
+                        var ar=date.split("/");
+                        date=new Date(ar[2]+"-"+ar[1]+"-"+ar[0]);
+                        ngModelCtrl.$setViewValue(date.getTime());
+                        scope.$apply();
+                    }
+                });
+                ngModelCtrl.$formatters.unshift(function(v) {
+                    return $filter('date')(v,'dd/MM/yyyy');
+                });
+
+            }
+        };
     }]);;'use strict';
 
 angular.module('app')
@@ -718,7 +757,7 @@ angular.module('app')
             transcript: '',
             project: '',
             price: '',
-            date: '',
+            receiptDate: new Date(),
             user: '',
             organisation: '',
             canDictate: true
@@ -729,7 +768,7 @@ angular.module('app')
             _receipt.transcript = '';
             _receipt.project = '';
             _receipt.price = '';
-            _receipt.date = '';
+            _receipt.receiptDate = new Date();
             _receipt.user = '';
             _receipt.organisation = '';
             _receipt.canDictate = true;

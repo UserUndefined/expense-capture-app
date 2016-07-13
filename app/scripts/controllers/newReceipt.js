@@ -7,8 +7,16 @@ angular.module('app')
 
         function initialise(){
             $scope.receipt = newReceiptDataService.newReceipt();
-            $scope.receipt.date = defaultDate.toDateString();
+            //$scope.receipt.receiptDate = moment().format("DD MMM YYYY");
         }
+
+        angular.element(document).ready(function () {
+            $('#newReceiptCreateDate').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                format: 'dd mmm yyyy'
+            });
+        });
 
         $scope.submitReceipt = function(){
             var receipts = ReceiptApi.all('receipt');
@@ -20,20 +28,5 @@ angular.module('app')
             });
         };
 
-        /*
-        $scope.receiptFileChangeEventHandler = function(files){
-            var file = files[0];
-            var reader = new FileReader();
-            reader.onload = function(event) {
-                $scope.receipt.file = event.target.result;
-                var user = userService.getCurrentUser();
-                $scope.receipt.user = user.username;
-                $scope.receipt.organisation = user.organisation;
-                $scope.$apply();
-                $state.go('newNotes');
-            };
-            reader.readAsDataURL(file);
-        };
-*/
         initialise();
     }]);
