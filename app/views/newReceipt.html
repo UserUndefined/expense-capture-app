@@ -1,47 +1,31 @@
-<div class="container col s12 m12 l12">
+<div class="inset" hide-sm></div>
     <div class="row">
-        <div class="input-field col s12">
-            <input id="newReceiptCreateDate"
-                   name="newReceiptCreateDate"
-                   input-date
-                   type="text"
-                   ng-model="receipt.receiptDate"
-                   container=""
-                   format="dd mmm yyyy"
-                   disable="disable"
-                   today="today"
-                   clear="clear"
-                   close="close"
-                   select-years="15"
-            />
-            <label class="active" for="newReceiptCreateDate">Receipt Date</label>
-        </div>
+        <md-datepicker md-open-on-focus ng-model="receipt.receiptDate" md-placeholder="Enter date"></md-datepicker>
     </div>
     <div class="row">
-        <div class="input-field col s12">
-            <input id="receiptValue" type="number" class="validate" ng-model="receipt.price">
+        <md-input-container>
             <label for="receiptValue">Claim Value</label>
-        </div>
+            <input id="receiptValue" type="number" class="validate" required required ng-model="receipt.price">
+        </md-input-container>
     </div>
     <div class="row">
-        <div class="input-field col s12">
-            <input class="validate" id="projectName" type="text" ng-model="receipt.project">
-            <label class="active" for="projectName">Project</label>
-        </div>
+        <md-input-container>
+            <label>Project</label>
+            <input class="validate" type="text" ng-model="receipt.project">
+        </md-input-container>
     </div>
     <div class="row">
-        <div class="input-field col s12">
-            <select select-option id="receiptCategory" name="receiptCategory" ng-model="receipt.category">
-                <option ng-if="categories" ng-repeat="category in categories">{{category.name}}</option>
-            </select>
-            <label class="active" for="receiptCategory">Category</label>
-        </div>
+        <md-input-container>
+            <md-select ng-model="receipt.category" placeholder="Select a category">
+                <md-option ng-value="category" ng-repeat="category in categories">{{ category.name }}</md-option>
+            </md-select>
+        </md-input-container>
     </div>
     <div class="row">
-        <div input-field class="col s12">
-            <textarea class="materialize-textarea validate" type="text" id="receiptDescription" ng-model="receipt.description"></textarea>
-            <label class="active" for="receiptDescription">Description</label>
-        </div>
+        <md-input-container>
+            <label>Description</label>
+            <textarea class="validate" type="text" ng-model="receipt.description"></textarea>
+        </md-input-container>
     </div>
     <div class="row">
         <form action="#">
@@ -63,9 +47,7 @@
         </form>
     </div>
     <div class="row">
-        <div input-field class="col s12">
-            <button class="waves-effect waves-light btn" ng-click="submitReceipt()" ng-if="!receiptInvalid" >Save Receipt</button>
-            <button class="disabled btn" ng-click="submitReceipt()" ng-if="receiptInvalid" >Save Receipt</button>
-        </div>
+        <md-button ng-click="submitReceipt()" ng-if="!receiptInvalid" class="md-raised md-primary">Save Receipt</md-button>
+        <md-button ng-click="submitReceipt()" ng-if="receiptInvalid" ng-disabled="true">Save Receipt</md-button>
     </div>
 </div>

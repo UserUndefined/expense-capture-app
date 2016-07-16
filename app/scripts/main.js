@@ -32,7 +32,7 @@
   $templateCache.put("views/newNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=toggleDictation()><i class=\"material-icons col s1\">mic</i><div class=\"col s10\"><span ng-if=!recording>Start Dictating</span> <span ng-if=recording>Stop Dictating</span></div></button></div></div><div class=row><div><img id=image-test class=\"receiptPreview col s12\" ng-src={{receipt.file}} onload=\"Materialize.fadeInImage('#image-test')\"></div></div></div>");
   $templateCache.put("views/newReceipt.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=newReceiptCreateDate name=newReceiptCreateDate input-date ng-model=receipt.receiptDate container=\"\" format=\"dd mmm yyyy\" disable=disable today=today clear=clear close=close select-years=\"15\"><label class=active for=newReceiptCreateDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=receipt.price><label for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><select select-option id=receiptCategory name=receiptCategory ng-model=receipt.category><option ng-if=categories ng-repeat=\"category in categories\">{{category.name}}</option></select><label class=active for=receiptCategory>Category</label></div></div><div class=row><div input-field class=\"col s12\"><textarea class=\"materialize-textarea validate\" type=text id=receiptDescription ng-model=receipt.description></textarea><label class=active for=receiptDescription>Description</label></div></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div input-field class=\"col s12\"><div input-field class=file-field><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><div input-field class=\"col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
+    "<div class=inset hide-sm></div><div class=row><md-datepicker md-open-on-focus ng-model=receipt.receiptDate md-placeholder=\"Enter date\"></md-datepicker></div><div class=row><md-input-container><label for=receiptValue>Claim Value</label><input id=receiptValue type=number class=validate required required ng-model=receipt.price></md-input-container></div><div class=row><md-input-container><label>Project</label><input class=validate ng-model=receipt.project></md-input-container></div><div class=row><md-input-container><md-select ng-model=receipt.category placeholder=\"Select a category\"><md-option ng-value=category ng-repeat=\"category in categories\">{{ category.name }}</md-option></md-select></md-input-container></div><div class=row><md-input-container><label>Description</label><textarea class=validate type=text ng-model=receipt.description></textarea></md-input-container></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div input-field class=\"col s12\"><div input-field class=file-field><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><md-button ng-click=submitReceipt() ng-if=!receiptInvalid class=\"md-raised md-primary\">Save Receipt</md-button><md-button ng-click=submitReceipt() ng-if=receiptInvalid ng-disabled=true>Save Receipt</md-button></div>");
 }]);
 ;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver','ngMaterial'])
 
@@ -44,8 +44,8 @@
         });
     }])
 
-    .config(['$stateProvider', '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
+        function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
             var mainView = {
                     url: '/main',
@@ -189,6 +189,10 @@
             .state('formValidationExample', formValidationExampleView);
 
             $urlRouterProvider.otherwise('/');
+
+            $mdThemingProvider.theme('default')
+                .primaryPalette('blue')
+                .accentPalette('pink');
 
         }]);
 
@@ -513,6 +517,18 @@ angular.module('app')
 ;'use strict';
 
 angular.module('app')
+    .controller('NavigationController', ['$scope, $timeout, $mdSidenav, $log', function ($scope, $timeout, $mdSidenav, $log) {
+        $scope.close = function () {
+            $mdSidenav('left').close()
+                .then(function () {
+                    $log.debug("close LEFT is done");
+                });
+
+        };
+    }]);
+;'use strict';
+
+angular.module('app')
     .controller('NewNotesController', ['$scope', '$state', 'newReceiptDataService', function ($scope, $state, newReceiptDataService) {
 
         var recognition = undefined;
@@ -625,6 +641,22 @@ angular.module('app')
 
         initialise();
     }]);
+;'use strict';
+
+angular.module('app')
+    .directive('activeSideNav', ['$mdSidenav', '$mdMedia', function($mdSidenav, $mdMedia) {
+        return {
+            closeSideNav: function() {
+                $mdSidenav('left').close()
+                    .then(function () {
+                        $log.debug("close LEFT is done");
+                    });
+            },
+            lockSideNavBar: function() {
+                return $mdMedia('gt-md');
+            }
+        }}]);
+
 ;'use strict';
 
 angular.module('app')

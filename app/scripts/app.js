@@ -8,8 +8,8 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
         });
     }])
 
-    .config(['$stateProvider', '$urlRouterProvider',
-        function ($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$mdThemingProvider',
+        function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
             var mainView = {
                     url: '/main',
@@ -153,6 +153,10 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
             .state('formValidationExample', formValidationExampleView);
 
             $urlRouterProvider.otherwise('/');
+
+            $mdThemingProvider.theme('default')
+                .primaryPalette('blue')
+                .accentPalette('pink');
 
         }]);
 
