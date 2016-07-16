@@ -20,7 +20,7 @@
   $templateCache.put("views/editReceipt.html",
     "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=receiptDate type=date class=datepicker ng-model=receipt.createdDate><label class=active for=receiptDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div class=row><div class=\"input-field col s12\"><label class=\"item item-input item-floating-label\"><span class=input-label>File</span> <img class=\"receiptPreview previewCenter\" ng-src=\"{{receipt.file}}\"></label></div></div></div>");
   $templateCache.put("views/editReceipts.html",
-    "<div class=\"list-container col s12 m12 l12\"><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><a ng-href=#/receipt/{{receipt._id}}><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.receiptDate | date:'dd MMM yyyy'}}</span><p>{{receipt.project}}<br></p><p ng-if=receipt.price>£{{receipt.price}}</p></div></div></a></li></ul></div>");
+    "<div class=\"list-container col s12 m12 l12\"><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><a ng-href=#/receipt/{{receipt._id}}><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.receiptDate | date:'dd MMM yyyy'}}</span><p>{{receipt.project}}<br></p><p ng-if=receipt.price>£{{receipt.price}}</p><br><p>{{receipt.category}}</p></div></div></a></li></ul></div>");
   $templateCache.put("views/export.html",
     "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=downloadCsvData()>Export</button></div></div></div>");
   $templateCache.put("views/formValidation.html",
@@ -32,7 +32,7 @@
   $templateCache.put("views/newNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=toggleDictation()><i class=\"material-icons col s1\">mic</i><div class=\"col s10\"><span ng-if=!recording>Start Dictating</span> <span ng-if=recording>Stop Dictating</span></div></button></div></div><div class=row><div><img id=image-test class=\"receiptPreview col s12\" ng-src={{receipt.file}} onload=\"Materialize.fadeInImage('#image-test')\"></div></div></div>");
   $templateCache.put("views/newReceipt.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=newReceiptCreateDate type=date class=datepicker ng-model=receipt.receiptDate><label class=active for=newReceiptCreateDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=receipt.price><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=receipt.transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><div class=\"file-field input-field\"><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
+    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=newReceiptCreateDate name=newReceiptCreateDate input-date ng-model=receipt.receiptDate container=\"\" format=\"dd mmm yyyy\" disable=disable today=today clear=clear close=close select-years=\"15\"><label class=active for=newReceiptCreateDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=receipt.price><label for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><select select-option id=receiptCategory name=receiptCategory ng-model=receipt.category><option ng-if=categories ng-repeat=\"category in categories\">{{category.name}}</option></select><label class=active for=receiptCategory>Category</label></div></div><div class=row><div input-field class=\"col s12\"><textarea class=\"materialize-textarea validate\" type=text id=receiptDescription ng-model=receipt.description></textarea><label class=active for=receiptDescription>Description</label></div></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div input-field class=\"col s12\"><div input-field class=file-field><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><div input-field class=\"col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
 }]);
 ;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver'])
 
@@ -194,19 +194,20 @@
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ['app']);
+    $('.button-collapse').sideNav();
     $('select').material_select();
-    $(".dropdown-button").dropdown();
-    $('.materialboxed').materialbox();
-    $('.button-collapse').sideNav({
-        menuWidth: 240, // Default is 240
-        edge: 'left', // Choose the horizontal origin
-        closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    });
-    $('.datepicker').pickadate({
-        selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15, // Creates a dropdown of 15 years to control year
-        format: 'dd mmm yyyy'
-    });
+    //$(".dropdown-button").dropdown();
+    //$('.materialboxed').materialbox();
+    //$('.button-collapse').sideNav({
+    //    menuWidth: 240, // Default is 240
+    //    edge: 'left', // Choose the horizontal origin
+    //    closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    //});
+    //$('.datepicker').pickadate({
+    //    selectMonths: true, // Creates a dropdown to control month
+    //    selectYears: 15, // Creates a dropdown of 15 years to control year
+    //    format: 'dd mmm yyyy'
+    //});
 });
 ;'use strict';
 
@@ -587,20 +588,30 @@ angular.module('app')
 angular.module('app')
     .controller('NewReceiptController', ['$scope', '$state', 'newReceiptDataService', 'userService', 'ReceiptApi', 'notify', function ($scope, $state, newReceiptDataService, userService, ReceiptApi, notify) {
 
-        var defaultDate = new Date();
-
         function initialise(){
             $scope.receipt = newReceiptDataService.newReceipt();
-            //$scope.receipt.receiptDate = moment().format("DD MMM YYYY");
+            getReceiptsCategories();
         }
 
         angular.element(document).ready(function () {
-            $('#newReceiptCreateDate').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15, // Creates a dropdown of 15 years to control year
-                format: 'dd mmm yyyy'
-            });
+            //$('#receiptCategory').material_select();
+            //$(".dropdown-button").dropdown();
+            //$('.materialboxed').materialbox();
+            //$('select').material_select();
+            //$('#receiptCategory').material_select();
+
         });
+
+        function getReceiptsCategories(){
+            ReceiptApi.all('receipts').all('categories').getList().then(function (res) {
+                $scope.categories = res.plain();
+                $('#receiptCategory').material_select();
+                //$('select-option').material_select();
+                //$('select').material_select();
+            }, function () {
+                notify({ message:'Receipt categories not found', duration:3000, classes:'alert-danger'} );
+            });
+        }
 
         $scope.submitReceipt = function(){
             var receipts = ReceiptApi.all('receipt');
@@ -659,51 +670,271 @@ angular.module('app')
         }
     }]);;'use strict';
 
+/**
+ * Add pickadate directive
+ * Type text is mandatory
+ * Example:
+ <input input-date
+ type="text"
+ name="created"
+ id="inputCreated"
+ ng-model="currentTime"
+ format="dd/mm/yyyy"
+ months-full="{{ monthFr }}"
+ months-short="{{ monthShortFr }}"
+ weekdays-full="{{ weekdaysFullFr }}"
+ weekdays-short="{{ weekdaysShortFr }}"
+ weekdays-letter="{{ weekdaysLetterFr }}"
+ disable="disable"
+ today="today"
+ clear="clear"
+ close="close"
+ on-start="onStart()"
+ on-render="onRender()"
+ on-open="onOpen()"
+ on-close="onClose()"
+ on-set="onSet()"
+ on-stop="onStop()" />
+ */
 angular.module('app')
-    .directive('jDatePicker',['$filter', function ($filter) {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function (scope, element, attrs, ngModelCtrl) {
-                element.newReceiptCreateDate({
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function (date) {
-                        var ar=date.split("/");
-                        date=new Date(ar[2]+"-"+ar[1]+"-"+ar[0]);
-                        ngModelCtrl.$setViewValue(date.getTime());
-                        scope.$apply();
+    .directive('inputDate', ["$compile", "$timeout", function ($compile, $timeout) {
+        // Fix for issue 46. This gotta be a bug in the materialize code, but this fixes it.
+        var style = $('<style>#inputCreated_root {outline: none;}</style>');
+        $('html > head').append(style);
+
+        // Define Prototype Date format
+        // Use like this
+        // today = new Date();
+        // var dateString = today.format("dd-m-yy");
+        var dateFormat = function () {
+
+            var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+                timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+                timezoneClip = /[^-+\dA-Z]/g,
+                pad = function (val, len) {
+                    val = String(val);
+                    len = len || 2;
+                    while (val.length < len) {
+                        val = "0" + val;
                     }
+                    return val;
+                };
+
+            // Regexes and supporting functions are cached through closure
+            return function (date, mask, utc) {
+
+                var dF = dateFormat;
+
+                // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+                if (arguments.length === 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                    mask = date;
+                    date = undefined;
+                }
+
+                // Passing date through Date applies Date.parse, if necessary
+                date = date ? new Date(date) : new Date();
+                if (isNaN(date)) throw SyntaxError("invalid date");
+
+                mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+                // Allow setting the utc argument via the mask
+                if (mask.slice(0, 4) == "UTC:") {
+                    mask = mask.slice(4);
+                    utc = true;
+                }
+
+                var _ = utc ? "getUTC" : "get",
+                    d = date[ _ + "Date" ](),
+                    D = date[ _ + "Day" ](),
+                    m = date[ _ + "Month" ](),
+                    y = date[ _ + "FullYear" ](),
+                    H = date[ _ + "Hours" ](),
+                    M = date[ _ + "Minutes" ](),
+                    s = date[ _ + "Seconds" ](),
+                    L = date[ _ + "Milliseconds" ](),
+                    o = utc ? 0 : date.getTimezoneOffset(),
+                    flags = {
+                        d:    d,
+                        dd:   pad(d),
+                        ddd:  dF.i18n.dayNames[D],
+                        dddd: dF.i18n.dayNames[D + 7],
+                        m:    m + 1,
+                        mm:   pad(m + 1),
+                        mmm:  dF.i18n.monthNames[m],
+                        mmmm: dF.i18n.monthNames[m + 12],
+                        yy:   String(y).slice(2),
+                        yyyy: y,
+                        h:    H % 12 || 12,
+                        hh:   pad(H % 12 || 12),
+                        H:    H,
+                        HH:   pad(H),
+                        M:    M,
+                        MM:   pad(M),
+                        s:    s,
+                        ss:   pad(s),
+                        l:    pad(L, 3),
+                        L:    pad(L > 99 ? Math.round(L / 10) : L),
+                        t:    H < 12 ? "a"  : "p",
+                        tt:   H < 12 ? "am" : "pm",
+                        T:    H < 12 ? "A"  : "P",
+                        TT:   H < 12 ? "AM" : "PM",
+                        Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                        o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                        S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                    };
+
+                return mask.replace(token, function ($0) {
+                    return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
                 });
-                ngModelCtrl.$formatters.unshift(function(v) {
-                    return $filter('date')(v,'dd/MM/yyyy');
+            };
+        }();
+
+        // Some common format strings
+        dateFormat.masks = {
+            "default":      "ddd mmm dd yyyy HH:MM:ss",
+            shortDate:      "m/d/yy",
+            mediumDate:     "mmm d, yyyy",
+            longDate:       "mmmm d, yyyy",
+            fullDate:       "dddd, mmmm d, yyyy",
+            shortTime:      "h:MM TT",
+            mediumTime:     "h:MM:ss TT",
+            longTime:       "h:MM:ss TT Z",
+            isoDate:        "yyyy-mm-dd",
+            isoTime:        "HH:MM:ss",
+            isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+            isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+        };
+
+        // Internationalization strings
+        dateFormat.i18n = {
+            dayNames: [
+                "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+            ],
+            monthNames: [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+            ]
+        };
+
+        // For convenience...
+        Date.prototype.format = function (mask, utc) {
+            return dateFormat(this, mask, utc);
+        };
+
+        /**
+         * Validate date object
+         * @param  {Date}  date
+         * @return {Boolean}
+         */
+        var isValidDate = function(date) {
+            if( Object.prototype.toString.call(date) === '[object Date]' ) {
+                return !isNaN(date.getTime());
+            }
+            return false;
+        };
+
+        return {
+            require: 'ngModel',
+            scope: {
+                container: "@",
+                format: "@",
+                formatSubmit: "@",
+                monthsFull: "@",
+                monthsShort: "@",
+                weekdaysFull: "@",
+                weekdaysShort: "@",
+                weekdaysLetter: "@",
+                firstDay: "=",
+                disable: "=",
+                today: "=",
+                clear: "=",
+                close: "=",
+                selectYears: "=",
+                onStart: "&",
+                onRender: "&",
+                onOpen: "&",
+                onClose: "&",
+                onSet: "&",
+                onStop: "&",
+                ngReadonly: "=?",
+                max: "@",
+                min: "@"
+            },
+            link: function (scope, element, attrs, ngModelCtrl) {
+
+                ngModelCtrl.$formatters.unshift(function (modelValue) {
+                    if (modelValue) {
+                        var date = new Date(modelValue);
+                        return (angular.isDefined(scope.format)) ? date.format(scope.format) : date.format('d mmmm, yyyy');
+                    }
+                    return null;
                 });
 
+                var monthsFull = (angular.isDefined(scope.monthsFull)) ? scope.$eval(scope.monthsFull) : undefined,
+                    monthsShort = (angular.isDefined(scope.monthsShort)) ? scope.$eval(scope.monthsShort) : undefined,
+                    weekdaysFull = (angular.isDefined(scope.weekdaysFull)) ? scope.$eval(scope.weekdaysFull) : undefined,
+                    weekdaysShort = (angular.isDefined(scope.weekdaysShort)) ? scope.$eval(scope.weekdaysShort) : undefined,
+                    weekdaysLetter = (angular.isDefined(scope.weekdaysLetter)) ? scope.$eval(scope.weekdaysLetter) : undefined;
+
+
+                $compile(element.contents())(scope);
+                if (!(scope.ngReadonly)) {
+                    $timeout(function () {
+                        var options = {
+                            container : scope.container,
+                            format: (angular.isDefined(scope.format)) ? scope.format : undefined,
+                            formatSubmit: (angular.isDefined(scope.formatSubmit)) ? scope.formatSubmit : undefined,
+                            monthsFull: (angular.isDefined(monthsFull)) ? monthsFull : undefined,
+                            monthsShort: (angular.isDefined(monthsShort)) ? monthsShort : undefined,
+                            weekdaysFull: (angular.isDefined(weekdaysFull)) ? weekdaysFull : undefined,
+                            weekdaysShort: (angular.isDefined(weekdaysShort)) ? weekdaysShort : undefined,
+                            weekdaysLetter: (angular.isDefined(weekdaysLetter)) ? weekdaysLetter : undefined,
+                            firstDay: (angular.isDefined(scope.firstDay)) ? scope.firstDay : 0,
+                            disable: (angular.isDefined(scope.disable)) ? scope.disable : undefined,
+                            today: (angular.isDefined(scope.today)) ? scope.today : undefined,
+                            clear: (angular.isDefined(scope.clear)) ? scope.clear : undefined,
+                            close: (angular.isDefined(scope.close)) ? scope.close : undefined,
+                            selectYears: (angular.isDefined(scope.selectYears)) ? scope.selectYears : undefined,
+                            onStart: (angular.isDefined(scope.onStart)) ? function(){ scope.onStart(); } : undefined,
+                            onRender: (angular.isDefined(scope.onRender)) ? function(){ scope.onRender(); } : undefined,
+                            onOpen: (angular.isDefined(scope.onOpen)) ? function(){ scope.onOpen(); } : undefined,
+                            onClose: (angular.isDefined(scope.onClose)) ? function(){ scope.onClose(); } : undefined,
+                            onSet: (angular.isDefined(scope.onSet)) ? function(){ scope.onSet(); } : undefined,
+                            onStop: (angular.isDefined(scope.onStop)) ? function(){ scope.onStop(); } : undefined
+                        };
+                        if (!scope.container) {
+                            delete options.container;
+                        }
+                        var pickadateInput = element.pickadate(options);
+                        //pickadate API
+                        var picker = pickadateInput.pickadate('picker');
+
+                        //watcher of min, max, and disabled dates
+                        scope.$watch('max', function(newMax) {
+                            if( picker ) {
+                                var maxDate = new Date(newMax);
+                                picker.set({max: isValidDate(maxDate) ? maxDate : false});
+                            }
+                        });
+                        scope.$watch('min', function(newMin) {
+                            if( picker ) {
+                                var minDate = new Date(newMin);
+                                picker.set({min: isValidDate(minDate) ? minDate : false});
+                            }
+                        });
+                        scope.$watch('disable', function(newDisabled) {
+                            if( picker ) {
+                                var disabledDates = angular.isDefined(newDisabled) && angular.isArray(newDisabled) ? newDisabled : false;
+                                picker.set({disable: disabledDates});
+                            }
+                        });
+                    });
+                }
             }
         };
-    }]);;'use strict';
-
-angular.module('app')
-    .directive('jqdatepicker', ['$filter', function ($filter) {
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function (scope, element, attrs, ngModelCtrl) {
-                element.datepicker({
-                    dateFormat: 'dd/mm/yy',
-                    onSelect: function (date) {
-                        var ar=date.split("/");
-                        date=new Date(ar[2]+"-"+ar[1]+"-"+ar[0]);
-                        ngModelCtrl.$setViewValue(date.getTime());
-                        scope.$apply();
-                    }
-                });
-                ngModelCtrl.$formatters.unshift(function(v) {
-                    return $filter('date')(v,'dd/MM/yyyy');
-                });
-
-            }
-        };
-    }]);;'use strict';
+    }]);
+;'use strict';
 
 angular.module('app')
     .directive('onLastRepeat', function() {
@@ -723,7 +954,93 @@ angular.module('app')
                 $('.materialboxed').materialbox();
             }
         }
-    });;'use strict';
+    });;(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .directive('selectOption', materialSelect);
+
+    materialSelect.$inject = ['$timeout'];
+
+    function materialSelect($timeout) {
+        var directive = {
+            link: link,
+            restrict: 'E',
+            require: '?ngModel'
+        };
+
+        function link(scope, element, attrs, ngModel) {
+            if (ngModel) {
+                ngModel.$render = create;
+            }else {
+                $timeout(create);
+            }
+
+            function create() {
+                element.material_select();
+            }
+
+            //if using materialize v0.96.0 use this
+            element.one('$destroy', function () {
+                element.material_select('destroy');
+            });
+
+            //not required in materialize v0.96.0
+            element.one('$destroy', function () {
+                var parent = element.parent();
+                if (parent.is('.select-wrapper')) {
+                    var elementId = parent.children('input').attr('data-activates');
+                    if (elementId) {
+                        $('#' + elementId).remove();
+                    }
+                    parent.remove();
+                    return;
+                }
+
+                element.remove();
+            });
+        }
+
+        return directive;
+    }
+
+})();
+;(function () {
+    'use strict';
+
+    angular.module('app')
+        .directive('selectOption', materialSelect);
+    materialSelect.$inject = ['$timeout'];
+
+    function materialSelect($timeout) {
+        var directive = {
+            link: link,
+            restrict: 'A',
+            require: '?ngModel'
+        };
+
+        function link(scope, element, attrs, ngModel) {
+            $timeout(create);
+
+            if (ngModel) {
+                ngModel.$render = create;
+            }
+
+            function create() {
+                element.material_select();
+            }
+
+            //if using materialize v0.96.0 use this
+            element.one('$destroy', function () {
+                element.material_select('destroy');
+            });
+        }
+
+        return directive;
+    }
+
+})();;'use strict';
 
 angular.module('app')
     .factory('ReceiptApi', ['Restangular', 'RECEIPT_API_URL', function (Restangular, url) {
@@ -754,7 +1071,7 @@ angular.module('app')
 
         var _receipt = {
             file: '',
-            transcript: '',
+            description: '',
             project: '',
             price: '',
             receiptDate: new Date(),
@@ -765,7 +1082,7 @@ angular.module('app')
 
         function resetReceipt(){
             _receipt.file = '';
-            _receipt.transcript = '';
+            _receipt.description = '';
             _receipt.project = '';
             _receipt.price = '';
             _receipt.receiptDate = new Date();

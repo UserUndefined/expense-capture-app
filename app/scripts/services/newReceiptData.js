@@ -5,7 +5,7 @@ angular.module('app')
 
         var _receipt = {
             file: '',
-            transcript: '',
+            description: '',
             project: '',
             price: '',
             receiptDate: new Date(),
@@ -16,7 +16,7 @@ angular.module('app')
 
         function resetReceipt(){
             _receipt.file = '';
-            _receipt.transcript = '';
+            _receipt.description = '';
             _receipt.project = '';
             _receipt.price = '';
             _receipt.receiptDate = new Date();

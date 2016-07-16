@@ -1,14 +1,26 @@
 <div class="container col s12 m12 l12">
     <div class="row">
         <div class="input-field col s12">
-            <input id="newReceiptCreateDate" type="date" class="datepicker" ng-model="receipt.receiptDate">
+            <input id="newReceiptCreateDate"
+                   name="newReceiptCreateDate"
+                   input-date
+                   type="text"
+                   ng-model="receipt.receiptDate"
+                   container=""
+                   format="dd mmm yyyy"
+                   disable="disable"
+                   today="today"
+                   clear="clear"
+                   close="close"
+                   select-years="15"
+            />
             <label class="active" for="newReceiptCreateDate">Receipt Date</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
             <input id="receiptValue" type="number" class="validate" ng-model="receipt.price">
-            <label class="active" for="receiptValue">Claim Value</label>
+            <label for="receiptValue">Claim Value</label>
         </div>
     </div>
     <div class="row">
@@ -19,16 +31,24 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <textarea class="materialize-textarea validate" type="text" id="transcript" ng-model="receipt.transcript"></textarea>
-            <label class="active" for="transcript">Notes</label>
+            <select select-option id="receiptCategory" name="receiptCategory" ng-model="receipt.category">
+                <option ng-if="categories" ng-repeat="category in categories">{{category.name}}</option>
+            </select>
+            <label class="active" for="receiptCategory">Category</label>
+        </div>
+    </div>
+    <div class="row">
+        <div input-field class="col s12">
+            <textarea class="materialize-textarea validate" type="text" id="receiptDescription" ng-model="receipt.description"></textarea>
+            <label class="active" for="receiptDescription">Description</label>
         </div>
     </div>
     <div class="row">
         <form action="#">
             <div class="container col s12 m12 l12">
                 <div class="row">
-                    <div class="input-field col s12">
-                        <div class="file-field input-field">
+                    <div input-field class="col s12">
+                        <div input-field class="file-field">
                             <div class="btn">
                                 <span>Upload</span>
                                 <input type="file">
@@ -43,7 +63,7 @@
         </form>
     </div>
     <div class="row">
-        <div class="input-field col s12">
+        <div input-field class="col s12">
             <button class="waves-effect waves-light btn" ng-click="submitReceipt()" ng-if="!receiptInvalid" >Save Receipt</button>
             <button class="disabled btn" ng-click="submitReceipt()" ng-if="receiptInvalid" >Save Receipt</button>
         </div>

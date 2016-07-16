@@ -158,17 +158,18 @@ angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'an
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ['app']);
+    $('.button-collapse').sideNav();
     $('select').material_select();
-    $(".dropdown-button").dropdown();
-    $('.materialboxed').materialbox();
-    $('.button-collapse').sideNav({
-        menuWidth: 240, // Default is 240
-        edge: 'left', // Choose the horizontal origin
-        closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    });
-    $('.datepicker').pickadate({
-        selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15, // Creates a dropdown of 15 years to control year
-        format: 'dd mmm yyyy'
-    });
+    //$(".dropdown-button").dropdown();
+    //$('.materialboxed').materialbox();
+    //$('.button-collapse').sideNav({
+    //    menuWidth: 240, // Default is 240
+    //    edge: 'left', // Choose the horizontal origin
+    //    closeOnClick: false // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    //});
+    //$('.datepicker').pickadate({
+    //    selectMonths: true, // Creates a dropdown to control month
+    //    selectYears: 15, // Creates a dropdown of 15 years to control year
+    //    format: 'dd mmm yyyy'
+    //});
 });
