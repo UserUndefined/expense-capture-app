@@ -34,7 +34,7 @@
   $templateCache.put("views/newReceipt.html",
     "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><input id=newReceiptCreateDate name=newReceiptCreateDate input-date ng-model=receipt.receiptDate container=\"\" format=\"dd mmm yyyy\" disable=disable today=today clear=clear close=close select-years=\"15\"><label class=active for=newReceiptCreateDate>Receipt Date</label></div></div><div class=row><div class=\"input-field col s12\"><input id=receiptValue type=number class=validate ng-model=receipt.price><label for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=receipt.project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s12\"><select select-option id=receiptCategory name=receiptCategory ng-model=receipt.category><option ng-if=categories ng-repeat=\"category in categories\">{{category.name}}</option></select><label class=active for=receiptCategory>Category</label></div></div><div class=row><div input-field class=\"col s12\"><textarea class=\"materialize-textarea validate\" type=text id=receiptDescription ng-model=receipt.description></textarea><label class=active for=receiptDescription>Description</label></div></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div input-field class=\"col s12\"><div input-field class=file-field><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><div input-field class=\"col s12\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div></div>");
 }]);
-;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver'])
+;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver','ngMaterial'])
 
     .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
@@ -194,8 +194,8 @@
 
 angular.element(document).ready(function () {
     angular.bootstrap(document, ['app']);
-    $('.button-collapse').sideNav();
-    $('select').material_select();
+    //$('.button-collapse').sideNav();
+    //$('select').material_select();
     //$(".dropdown-button").dropdown();
     //$('.materialboxed').materialbox();
     //$('.button-collapse').sideNav({
@@ -955,58 +955,6 @@ angular.module('app')
             }
         }
     });;(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .directive('selectOption', materialSelect);
-
-    materialSelect.$inject = ['$timeout'];
-
-    function materialSelect($timeout) {
-        var directive = {
-            link: link,
-            restrict: 'E',
-            require: '?ngModel'
-        };
-
-        function link(scope, element, attrs, ngModel) {
-            if (ngModel) {
-                ngModel.$render = create;
-            }else {
-                $timeout(create);
-            }
-
-            function create() {
-                element.material_select();
-            }
-
-            //if using materialize v0.96.0 use this
-            element.one('$destroy', function () {
-                element.material_select('destroy');
-            });
-
-            //not required in materialize v0.96.0
-            element.one('$destroy', function () {
-                var parent = element.parent();
-                if (parent.is('.select-wrapper')) {
-                    var elementId = parent.children('input').attr('data-activates');
-                    if (elementId) {
-                        $('#' + elementId).remove();
-                    }
-                    parent.remove();
-                    return;
-                }
-
-                element.remove();
-            });
-        }
-
-        return directive;
-    }
-
-})();
-;(function () {
     'use strict';
 
     angular.module('app')
