@@ -506,12 +506,16 @@ angular.module('app')
 ;'use strict';
 
 angular.module('app')
-    .controller('MainController', ['$scope', function ($scope) {
+    .controller('MainController', ['$scope', function ($scope, $mdSidenav) {
 
         function initialise(){
             $scope.myProperty = 'A Value';
         }
-
+/*
+        $scope.toggleSidenav = function(menuId){
+            $mdSidenav(menuId).toggle();
+        };
+*/
         initialise();
     }]);
 ;'use strict';
@@ -609,21 +613,9 @@ angular.module('app')
             getReceiptsCategories();
         }
 
-        angular.element(document).ready(function () {
-            //$('#receiptCategory').material_select();
-            //$(".dropdown-button").dropdown();
-            //$('.materialboxed').materialbox();
-            //$('select').material_select();
-            //$('#receiptCategory').material_select();
-
-        });
-
         function getReceiptsCategories(){
             ReceiptApi.all('receipts').all('categories').getList().then(function (res) {
                 $scope.categories = res.plain();
-                $('#receiptCategory').material_select();
-                //$('select-option').material_select();
-                //$('select').material_select();
             }, function () {
                 notify({ message:'Receipt categories not found', duration:3000, classes:'alert-danger'} );
             });
@@ -644,18 +636,17 @@ angular.module('app')
 ;'use strict';
 
 angular.module('app')
-    .directive('activeSideNav', ['$mdSidenav', '$mdMedia', function($mdSidenav, $mdMedia) {
+    .directive('activeSideNav', function() {
         return {
-            closeSideNav: function() {
-                $mdSidenav('left').close()
-                    .then(function () {
-                        $log.debug("close LEFT is done");
-                    });
-            },
-            lockSideNavBar: function() {
-                return $mdMedia('gt-md');
-            }
-        }}]);
+            scope: false,
+            restrict: 'A',
+            controller: ['$scope', '$mdSidenav', function($scope, $mdSidenav){
+                $scope.toggleSidenav = function(menuId){
+                    $mdSidenav(menuId).toggle();
+                };
+            }]
+        };
+    });
 
 ;'use strict';
 

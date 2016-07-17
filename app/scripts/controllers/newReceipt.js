@@ -8,21 +8,9 @@ angular.module('app')
             getReceiptsCategories();
         }
 
-        angular.element(document).ready(function () {
-            //$('#receiptCategory').material_select();
-            //$(".dropdown-button").dropdown();
-            //$('.materialboxed').materialbox();
-            //$('select').material_select();
-            //$('#receiptCategory').material_select();
-
-        });
-
         function getReceiptsCategories(){
             ReceiptApi.all('receipts').all('categories').getList().then(function (res) {
                 $scope.categories = res.plain();
-                $('#receiptCategory').material_select();
-                //$('select-option').material_select();
-                //$('select').material_select();
             }, function () {
                 notify({ message:'Receipt categories not found', duration:3000, classes:'alert-danger'} );
             });
