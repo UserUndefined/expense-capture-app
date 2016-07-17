@@ -1,4 +1,6 @@
-<div class="inset" hide-sm></div>
+<div layout="column" layout-align="center">
+    <div flex="20"></div>
+    <div class="inset" hide-sm></div>
     <div class="row">
         <md-datepicker md-open-on-focus ng-model="receipt.receiptDate" md-placeholder="Enter date"></md-datepicker>
     </div>
@@ -51,3 +53,4 @@
         <md-button ng-click="submitReceipt()" ng-if="receiptInvalid" ng-disabled="true">Save Receipt</md-button>
     </div>
 </div>
+<div flex="20"></div>
