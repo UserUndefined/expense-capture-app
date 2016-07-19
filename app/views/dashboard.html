@@ -1,32 +1,20 @@
-<div class="container col s12 m12 l12">
-    <div class="row">
-        <div class="col s12 m5">
-            <div class="card">
-                <div class="card-image">
-                    <img src="images/mouseandpaperwork.jpg">
-                    <span class="card-title black-text">Last 7 Days</span>
-                </div>
-                <div class="card-content">
-                    <p>{{stats.receiptsLastSevenDays}} receipts entered in the last 7 days</span>
-                </div>
-                <div class="card-action">
-                    <a href="#/list">View All Receipts</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m5">
-            <div class="card">
-                <div class="card-image">
-                    <img src="images/calculatorandpen.jpg">
-                    <span class="card-title black-text">Last Month</span>
-                </div>
-                <div class="card-content">
-                    <p>{{stats.receiptsLastMonth}} receipts entered in the last month</span>
-                </div>
-                <div class="card-action">
-                    <a href="#/list">View All Receipts</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<md-content class="md-padding" layout-xs="column" layout="row">
+    <md-card>
+        <img ng-src="images/mouseandpaperwork.jpg" class="md-card-image" alt="Office Desktop">
+        <md-card-content>
+            <p>{{stats.receiptsLastSevenDays}} receipts entered in the last 7 days</span>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="start center">
+            <md-button ng-click="navigateToList()">View All Receipts</md-button>
+        </md-card-actions>
+    </md-card>
+    <md-card>
+        <img ng-src="images/calculatorandpen.jpg" class="md-card-image" alt="Office Desktop Calculator">
+        <md-card-content>
+            <p>{{stats.receiptsLastMonth}} receipts entered in the last month</span>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="start center">
+            <md-button ng-click="navigateToList()">View All Receipts</md-button>
+        </md-card-actions>
+    </md-card>
+</md-content>

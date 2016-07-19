@@ -8,7 +8,7 @@
   $templateCache.put("views/captureReceipt.html",
     "<div class=container><div class=row></div><div class=row><div class=\"file-field input-field col s12\"><div class=\"waves-effect waves-light btn\"><span>Capture Receipt</span> <input type=file accept=image/* capture=camera id=receiptFile onchange=angular.element(this).scope().receiptFileChangeEventHandler(this.files)></div></div></div><div class=row ng-if=\"receiptFile !== ''\"><div class=\"col s5\"><img class=receiptPreview ng-src=\"{{receiptFile}}\"></div></div><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=startDictation()>Dictate Notes</button></div></div><div class=row><div class=\"input-field col s12\"><textarea class=\"materialize-textarea validate\" type=text id=transcript ng-model=transcript></textarea><label class=active for=transcript>Notes</label></div></div><div class=row><div class=\"input-field col s6\"><input id=receiptDate class=validate ng-model=createdDate><label class=active for=receiptDate>Receipt Date</label></div><div class=\"input-field col s6\"><input id=receiptValue class=validate ng-model=claimValue><label class=active for=receiptValue>Claim Value</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=projectName ng-model=project><label class=active for=projectName>Project</label></div></div><div class=row><div class=\"input-field col s6\"><button class=\"waves-effect waves-light btn\" ng-click=submitReceipt() ng-if=!receiptInvalid>Save Receipt</button> <button class=\"disabled btn\" ng-click=submitReceipt() ng-if=receiptInvalid>Save Receipt</button></div></div><div ng-if=receiptSubmitted class=row><div class=\"col s12\"><div class=\"input-field col s12\"><p>Receipt Submitted</p></div></div></div></div>");
   $templateCache.put("views/dashboard.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"col s12 m5\"><div class=card><div class=card-image><img src=images/mouseandpaperwork.jpg> <span class=\"card-title black-text\">Last 7 Days</span></div><div class=card-content><p>{{stats.receiptsLastSevenDays}} receipts entered in the last 7 days</p></div><div class=card-action><a href=#/list>View All Receipts</a></div></div></div><div class=\"col s12 m5\"><div class=card><div class=card-image><img src=images/calculatorandpen.jpg> <span class=\"card-title black-text\">Last Month</span></div><div class=card-content><p>{{stats.receiptsLastMonth}} receipts entered in the last month</p></div><div class=card-action><a href=#/list>View All Receipts</a></div></div></div></div></div>");
+    "<md-content class=md-padding layout-xs=column layout=row><md-card><img ng-src=images/mouseandpaperwork.jpg class=md-card-image alt=\"Office Desktop\"><md-card-content><p>{{stats.receiptsLastSevenDays}} receipts entered in the last 7 days</p></md-card-content><md-card-actions layout=row layout-align=\"start center\"><md-button ng-click=navigateToList()>View All Receipts</md-button></md-card-actions></md-card><md-card><img ng-src=images/calculatorandpen.jpg class=md-card-image alt=\"Office Desktop Calculator\"><md-card-content><p>{{stats.receiptsLastMonth}} receipts entered in the last month</p></md-card-content><md-card-actions layout=row layout-align=\"start center\"><md-button ng-click=navigateToList()>View All Receipts</md-button></md-card-actions></md-card></md-content>");
   $templateCache.put("views/directiveExamples.html",
     "<h1>AngularJs Custom Directive Examples</h1><p>This page contains a few examples of custom AngularJs directives using different techniques and functionality.</p><p>Here is an inline custom directive displaying a customer name scope property</p><exp-in-line-directive></exp-in-line-directive><p>Here is a custom directive using an HTML template to display all customer details:</p><exp-html-directive></exp-html-directive>");
   $templateCache.put("views/directives/currentUser.html",
@@ -22,11 +22,11 @@
   $templateCache.put("views/editReceipts.html",
     "<div class=\"list-container col s12 m12 l12\"><ul class=collection><li ng-repeat=\"receipt in filteredReceipts\" class=\"collection-item avatar\"><a ng-href=#/receipt/{{receipt._id}}><div class=list-item-receipt-details><div class=container-item-receipt-thumbnail><img ng-src={{receipt.file}} class=\"img-list-receipts-thumbnail materialboxed\"></div><div class=container-item-receipt-text><i class=\"material-icons circle green\">insert_chart</i> <span class=title>{{receipt.receiptDate | date:'dd MMM yyyy'}}</span><p>{{receipt.project}}<br></p><p ng-if=receipt.price>£{{receipt.price}}</p><br><p>{{receipt.category}}</p></div></div></a></li></ul></div>");
   $templateCache.put("views/export.html",
-    "<div class=\"container col s12 m12 l12\"><div class=row><div class=\"input-field col s12\"><button class=\"waves-effect waves-light btn\" ng-click=downloadCsvData()>Export</button></div></div></div>");
+    "<md-content class=md-padding layout-xs=column layout=row><section layout=row layout-sm=column layout-align=\"center center\" layout-wrap><md-button class=\"md-raised md-primary\" ng-click=downloadCsvData()>Export</md-button></section></md-content>");
   $templateCache.put("views/formValidation.html",
     "<h1>AngularJs Form Validation Example</h1><form novalidate class=simple-form>Name: <input ng-model=user.name required><br>E-mail: <input type=email ng-model=user.email class=validate required><br><input type=button ng-click=reset() value=\"Reset\"> <input type=submit ng-click=update(user) value=\"Save\"></form><pre>user = {{user | json}}</pre><pre>master = {{master | json}}</pre>");
   $templateCache.put("views/login.html",
-    "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><form class=login-form name=loginForm><div class=row><div class=input-field><h5 class=center>Expenses Tracker Login</h5></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=logon_organisation ng-model=user.organisation><label class=active for=logon_organisation data-error=wrong data-success=right>Organisation</label></div></div><div class=row><div class=\"input-field col s12\"><input class=validate id=logon_logon ng-model=user.logon><label class=active for=logon_logon data-error=wrong data-success=right>Logon</label></div></div><div class=row><div class=\"input-field col s12\"><input id=logon_password type=password ng-model=user.password><label class=active for=logon_password>Password</label></div></div><div class=row><div class=\"input-field col s12 m12 l12 login-text\"><input type=checkbox id=remember-me ng-model=\"user.rememberMe\"><label for=remember-me>Remember me</label></div></div><div class=row><div class=\"input-field col s12\"><a class=\"btn waves-effect waves-light col s12\" ng-click=submitLogon()>Login</a></div></div></form></div>");
+    "<md-content layout=row layout-align=center><div layout-fill flex-gt-xs=66><form name=loginForm><md-input-container class=md-block><h3>Expenses Manager Login</h3></md-input-container><md-input-container class=md-block><label>Organisation</label><md-icon md-font-set=material-icons>business</md-icon><input ng-model=user.organisation></md-input-container><md-input-container class=md-block><label>Email Address</label><md-icon md-font-set=material-icons>email</md-icon><input ng-model=user.logon type=email required minlength=10 maxlength=100 ng-pattern=\"/^.+@.+\\..+$/\"></md-input-container><md-input-container class=md-block><label>Password</label><md-icon md-font-set=material-icons>https</md-icon><input ng-model=user.password type=password></md-input-container><md-input-container class=md-block><md-checkbox class=md-secondary ng-model=user.rememberMe>Remember me</md-checkbox></md-input-container><md-button class=\"md-raised md-primary\" ng-click=submitLogon() layout-fill>Login</md-button></form></div></md-content>");
   $templateCache.put("views/main.html",
     "<div class=container><div class=row></div><div class=row><div class=\"col s12\"><div class=\"input-field col s6\"><span>Camera:</span> <input id=image_filepath type=file class=validate accept=image/* capture=camera></div></div></div><div class=row><div class=\"col s12\"><div class=\"input-field col s6\"><span>Microphone #1:</span> <input type=file accept=\"audio/*;capture=microphone\"></div></div></div><div class=row><div class=\"col s12\"><div class=\"input-field col s6\"><span>Microphone #2:</span> <input id=audio_filepath type=file class=validate accept=audio/* capture=microphone></div></div></div><div class=row><div class=\"col s12\"><div class=\"input-field col s6\"><span>Video:</span> <input id=video_filepath type=file class=validate accept=audio/* capture=video></div></div></div><div class=row><div class=\"col s12\"><div class=\"input-field col s6\"><span>Webkit Speech:</span> <input x-webkit-speech></div></div></div><div class=row><div class=\"col s12\"><div class=\"input-field col s12\"><div class=speech><span><input name=q id=transcript placeholder=\"Speak\"> <button class=\"waves-effect waves-light btn\" onclick=startDictation()>Start Recording</button></span></div></div></div></div></div>");
   $templateCache.put("views/newNotes.html",
@@ -303,6 +303,10 @@ angular.module('app')
             };
         }
 
+        $scope.navigateToList = function(){
+            $state.go('editReceipts');
+        };
+
         initialise();
 
     }]);
@@ -472,7 +476,7 @@ angular.module('app')
 
             $scope.user = {
                 organisation: 'Test Company',
-                logon: 'Guest',
+                logon: 'guest@expensemanager.com',
                 password: 'password',
                 rememberMe: true
             };
@@ -490,7 +494,7 @@ angular.module('app')
                     notify({ message:'Login Failed', duration:3000, classes:'alert-fail'} );
                 });
                 */
-                if ($scope.user.logon === 'Guest' && $scope.user.password === 'password') {
+                if ($scope.user.logon === 'guest@expensemanager.com' && $scope.user.password === 'password') {
                     // Successful login
                     userService.logIn($scope.user.logon, 'ABCDE12345', $scope.user.organisation);
                     $state.transitionTo('dashboard');

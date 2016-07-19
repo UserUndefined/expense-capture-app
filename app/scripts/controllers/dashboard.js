@@ -10,6 +10,10 @@ angular.module('app')
             };
         }
 
+        $scope.navigateToList = function(){
+            $state.go('editReceipts');
+        };
+
         initialise();
 
     }]);

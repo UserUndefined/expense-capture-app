@@ -10,7 +10,7 @@ angular.module('app')
 
             $scope.user = {
                 organisation: 'Test Company',
-                logon: 'Guest',
+                logon: 'guest@expensemanager.com',
                 password: 'password',
                 rememberMe: true
             };
@@ -28,7 +28,7 @@ angular.module('app')
                     notify({ message:'Login Failed', duration:3000, classes:'alert-fail'} );
                 });
                 */
-                if ($scope.user.logon === 'Guest' && $scope.user.password === 'password') {
+                if ($scope.user.logon === 'guest@expensemanager.com' && $scope.user.password === 'password') {
                     // Successful login
                     userService.logIn($scope.user.logon, 'ABCDE12345', $scope.user.organisation);
                     $state.transitionTo('dashboard');
