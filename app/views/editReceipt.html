@@ -1,53 +1,27 @@
-<div class="container col s12 m12 l12">
-    <div class="row">
-        <div class="input-field col s12">
-            <input id="receiptDate" type="date" class="datepicker" ng-model="receipt.createdDate">
-            <label class="active" for="receiptDate">Receipt Date</label>
+<md-content layout="row" layout-align="center" >
+    <div layout-fill flex-gt-xs="66">
+        <div layout="column" layout-align="center">
+            <md-datepicker md-open-on-focus ng-model="receipt.receiptDate" md-placeholder="Enter date"></md-datepicker>
+            <md-input-container class="md-block">
+                <label>Claim Value</label>
+                <input type="number" class="validate" required ng-model="receipt.price">
+            </md-input-container>
+            <md-input-container class="md-block">
+                <label>Project</label>
+                <input class="validate" ng-model="receipt.project">
+            </md-input-container>
+            <md-input-container>
+                <md-select ng-model="receipt.category" placeholder="Select a category">
+                    <md-option ng-value="category.name" ng-repeat="category in categories">{{ category.name }}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container>
+                <label>Description</label>
+                <textarea class="validate" type="text" ng-model="receipt.description"></textarea>
+            </md-input-container>
+            <lf-ng-md-file-input lf-files='files' multiple progress preview lf-maxcount="2" lf-filesize="10MB"> </lf-ng-md-file-input>
+            <md-button ng-click="submitReceipt()" ng-if="!receiptInvalid" class="md-raised md-primary">Save Receipt</md-button>
+            <md-button ng-click="submitReceipt()" ng-if="receiptInvalid" ng-disabled="true">Save Receipt</md-button>
         </div>
     </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <input id="receiptValue" type="text" class="validate" ng-model="receipt.price">
-            <label class="active" for="receiptValue">Claim Value</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <input class="validate" id="projectName" type="text" ng-model="receipt.project">
-            <label class="active" for="projectName">Project</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <textarea class="materialize-textarea validate" type="text" id="transcript" ng-model="receipt.transcript"></textarea>
-            <label class="active" for="transcript">Notes</label>
-        </div>
-    </div>
-    <div class="row">
-        <form action="#">
-            <div class="file-field input-field">
-                <div class="btn">
-                    <span>Upload</span>
-                    <input type="file">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <button class="waves-effect waves-light btn" ng-click="submitReceipt()" ng-if="!receiptInvalid" >Save Receipt</button>
-            <button class="disabled btn" ng-click="submitReceipt()" ng-if="receiptInvalid" >Save Receipt</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <label class="item item-input item-floating-label">
-                <span class="input-label">File</span>
-                <img class="receiptPreview previewCenter" ng-src="{{receipt.file}}"/>
-            </label>
-        </div>
-    </div>
-</div>
+</md-content>

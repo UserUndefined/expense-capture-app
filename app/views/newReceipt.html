@@ -20,7 +20,9 @@
                 <textarea class="validate" type="text" ng-model="receipt.description"></textarea>
             </md-input-container>
             <lf-ng-md-file-input lf-files='files' multiple progress preview lf-maxcount="2" lf-filesize="10MB"> </lf-ng-md-file-input>
-        <md-button ng-click="submitReceipt()" ng-if="!receiptInvalid" class="md-raised md-primary">Save Receipt</md-button>
-        <md-button ng-click="submitReceipt()" ng-if="receiptInvalid" ng-disabled="true">Save Receipt</md-button>
-</div>
-<div flex="20"></div>
+            <md-button ng-click="submitReceipt()" ng-if="!receiptInvalid" class="md-raised md-primary">Save Receipt</md-button>
+            <md-button ng-click="submitReceipt()" ng-if="receiptInvalid" ng-disabled="true">Save Receipt</md-button>
+        </div>
+    </div>
+</md-content>
+
