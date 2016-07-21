@@ -17,6 +17,15 @@ angular.module('app')
         }
 
         $scope.submitReceipt = function(){
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                $scope.receipt.file = reader.result;
+                postRecipt();
+            };
+            reader.readAsDataURL($scope.files[0].lfFile);
+        };
+
+        function postRecipt(){
             var receipts = ReceiptApi.all('receipt');
             receipts.post($scope.receipt).then(function (res) {
                 notify({ message:'Receipt Saved', duration:3000, classes:'alert-success'} );
@@ -24,7 +33,7 @@ angular.module('app')
             },function(response){
                 notify({ message:'status: ' + response.status + '; message: ' + response.message, duration:3000, classes:'alert-success'} );
             });
-        };
+        }
 
         initialise();
     }]);

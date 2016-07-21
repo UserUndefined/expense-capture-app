@@ -32,9 +32,9 @@
   $templateCache.put("views/newNotes.html",
     "<div class=\"container col s12 m6 l6 offset-m3 offset-l3\"><div class=row></div><div class=row><div class=input-field><button class=\"waves-effect waves-light btn col s12\" ng-click=toggleDictation()><i class=\"material-icons col s1\">mic</i><div class=\"col s10\"><span ng-if=!recording>Start Dictating</span> <span ng-if=recording>Stop Dictating</span></div></button></div></div><div class=row><div><img id=image-test class=\"receiptPreview col s12\" ng-src={{receipt.file}} onload=\"Materialize.fadeInImage('#image-test')\"></div></div></div>");
   $templateCache.put("views/newReceipt.html",
-    "<div layout=column layout-align=center><div flex=20></div><div class=inset hide-sm></div><div class=row><md-datepicker md-open-on-focus ng-model=receipt.receiptDate md-placeholder=\"Enter date\"></md-datepicker></div><div class=row><md-input-container><label for=receiptValue>Claim Value</label><input id=receiptValue type=number class=validate required required ng-model=receipt.price></md-input-container></div><div class=row><md-input-container><label>Project</label><input class=validate ng-model=receipt.project></md-input-container></div><div class=row><md-input-container><md-select ng-model=receipt.category placeholder=\"Select a category\"><md-option ng-value=category ng-repeat=\"category in categories\">{{ category.name }}</md-option></md-select></md-input-container></div><div class=row><md-input-container><label>Description</label><textarea class=validate type=text ng-model=receipt.description></textarea></md-input-container></div><div class=row><form action=#><div class=\"container col s12 m12 l12\"><div class=row><div input-field class=\"col s12\"><div input-field class=file-field><div class=btn><span>Upload</span> <input type=file></div><div class=file-path-wrapper><input class=\"file-path validate\"></div></div></div></div></div></form></div><div class=row><md-button ng-click=submitReceipt() ng-if=!receiptInvalid class=\"md-raised md-primary\">Save Receipt</md-button><md-button ng-click=submitReceipt() ng-if=receiptInvalid ng-disabled=true>Save Receipt</md-button></div></div><div flex=20></div>");
+    "<md-content layout=row layout-align=center><div layout-fill flex-gt-xs=66><div layout=column layout-align=center><md-datepicker md-open-on-focus ng-model=receipt.receiptDate md-placeholder=\"Enter date\"></md-datepicker><md-input-container class=md-block><label>Claim Value</label><input type=number class=validate required ng-model=receipt.price></md-input-container><md-input-container class=md-block><label>Project</label><input class=validate ng-model=receipt.project></md-input-container><md-input-container><md-select ng-model=receipt.category placeholder=\"Select a category\"><md-option ng-value=category.name ng-repeat=\"category in categories\">{{ category.name }}</md-option></md-select></md-input-container><md-input-container><label>Description</label><textarea class=validate type=text ng-model=receipt.description></textarea></md-input-container><lf-ng-md-file-input lf-files=files multiple progress preview lf-maxcount=2 lf-filesize=10MB></lf-ng-md-file-input><md-button ng-click=submitReceipt() ng-if=!receiptInvalid class=\"md-raised md-primary\">Save Receipt</md-button><md-button ng-click=submitReceipt() ng-if=receiptInvalid ng-disabled=true>Save Receipt</md-button></div><div flex=20></div></div></md-content>");
 }]);
-;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver','ngMaterial'])
+;angular.module('app', ['appTemplates', 'ui.router', 'config', 'restangular', 'angularSpinner', 'cgNotify', 'ipCookie', 'ngFileSaver','ngMaterial', 'lfNgMdFileInput'])
 
     .run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
@@ -626,6 +626,15 @@ angular.module('app')
         }
 
         $scope.submitReceipt = function(){
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                $scope.receipt.file = reader.result;
+                postRecipt();
+            };
+            reader.readAsDataURL($scope.files[0].lfFile);
+        };
+
+        function postRecipt(){
             var receipts = ReceiptApi.all('receipt');
             receipts.post($scope.receipt).then(function (res) {
                 notify({ message:'Receipt Saved', duration:3000, classes:'alert-success'} );
@@ -633,7 +642,7 @@ angular.module('app')
             },function(response){
                 notify({ message:'status: ' + response.status + '; message: ' + response.message, duration:3000, classes:'alert-success'} );
             });
-        };
+        }
 
         initialise();
     }]);
